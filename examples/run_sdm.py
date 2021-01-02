@@ -1,6 +1,11 @@
 import pandas as pd
 from deepctr.feature_column import SparseFeat, VarLenSparseFeat
-from preprocess import gen_data_set_sdm, gen_model_input_sdm
+import sys
+import os
+CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
+print(CURRENT_DIR)
+sys.path.insert(0, CURRENT_DIR + '/..')
+from examples.preprocess import gen_data_set_sdm, gen_model_input_sdm
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.python.keras import backend as K
 from tensorflow.python.keras import optimizers
@@ -13,6 +18,7 @@ if __name__ == "__main__":
     data = pd.read_csvdata = pd.read_csv("./movielens_sample.txt")
     sparse_features = ["movie_id", "user_id",
                        "gender", "age", "occupation", "zip", "genres"]
+
     SEQ_LEN_short = 5
     SEQ_LEN_prefer = 50
 

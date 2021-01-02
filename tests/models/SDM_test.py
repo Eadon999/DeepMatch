@@ -1,9 +1,13 @@
 import tensorflow as tf
 from tensorflow.python.keras import backend as K
-
 from deepmatch.models import SDM
 from deepmatch.utils import sampledsoftmaxloss
-from ..utils import check_model, get_xy_fd_sdm
+import sys
+import os
+CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
+print(CURRENT_DIR)
+sys.path.insert(0, CURRENT_DIR + '/../..')
+from tests.utils import check_model, get_xy_fd_sdm
 
 
 
