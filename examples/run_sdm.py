@@ -2,6 +2,7 @@ import pandas as pd
 from deepctr.feature_column import SparseFeat, VarLenSparseFeat
 import sys
 import os
+
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
 print(CURRENT_DIR)
 sys.path.insert(0, CURRENT_DIR + '/..')
@@ -15,6 +16,7 @@ from deepmatch.models import SDM
 from deepmatch.utils import sampledsoftmaxloss
 
 if __name__ == "__main__":
+    # detail doc: https://zhuanlan.zhihu.com/p/141411747
     data = pd.read_csvdata = pd.read_csv("./movielens_sample.txt")
     sparse_features = ["movie_id", "user_id",
                        "gender", "age", "occupation", "zip", "genres"]
@@ -28,9 +30,10 @@ if __name__ == "__main__":
     feature_max_idx = {}
     for feature in features:
         lbe = LabelEncoder()
+        # adding 1 for every index_value to avoid confuse padding fill zero
         data[feature] = lbe.fit_transform(data[feature]) + 1
+        # store max length
         feature_max_idx[feature] = data[feature].max() + 1
-
     user_profile = data[["user_id", "gender", "age", "occupation", "zip", "genres"]].drop_duplicates('user_id')
 
     item_profile = data[["movie_id"]].drop_duplicates('movie_id')
@@ -42,6 +45,7 @@ if __name__ == "__main__":
     train_set, test_set = gen_data_set_sdm(data, seq_short_len=SEQ_LEN_short, seq_prefer_len=SEQ_LEN_prefer)
 
     train_model_input, train_label = gen_model_input_sdm(train_set, user_profile, SEQ_LEN_short, SEQ_LEN_prefer)
+    
     test_model_input, test_label = gen_model_input_sdm(test_set, user_profile, SEQ_LEN_short, SEQ_LEN_prefer)
 
     # 2.count #unique features for each sparse field and generate feature config for sequence feature
