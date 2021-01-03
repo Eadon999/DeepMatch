@@ -44,14 +44,16 @@ if __name__ == "__main__":
 
     train_set, test_set = gen_data_set_sdm(data, seq_short_len=SEQ_LEN_short, seq_prefer_len=SEQ_LEN_prefer)
 
+    # {'feature_name1':all_sample_feature1_values,'feature_name2':all_sample_feature2_values}
     train_model_input, train_label = gen_model_input_sdm(train_set, user_profile, SEQ_LEN_short, SEQ_LEN_prefer)
-    
+
     test_model_input, test_label = gen_model_input_sdm(test_set, user_profile, SEQ_LEN_short, SEQ_LEN_prefer)
 
     # 2.count #unique features for each sparse field and generate feature config for sequence feature
 
     embedding_dim = 32
     # for sdm,we must provide `VarLenSparseFeat` with name "prefer_xxx" and "short_xxx" and their length
+    # SparseFeat/VarLenSparseFeat is construct parse schema
     user_feature_columns = [SparseFeat('user_id', feature_max_idx['user_id'], 16),
                             SparseFeat("gender", feature_max_idx['gender'], 16),
                             SparseFeat("age", feature_max_idx['age'], 16),
