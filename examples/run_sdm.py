@@ -14,6 +14,7 @@ from tensorflow.python.keras.models import Model
 
 from deepmatch.models import SDM
 from deepmatch.utils import sampledsoftmaxloss
+from tensorflow.keras.utils import plot_model, get_source_inputs
 
 if __name__ == "__main__":
     # detail doc: https://zhuanlan.zhihu.com/p/141411747
@@ -85,6 +86,12 @@ if __name__ == "__main__":
     # units must be equal to item embedding dim!
     model = SDM(user_feature_columns, item_feature_columns, history_feature_list=['movie_id', 'genres'],
                 units=embedding_dim, num_sampled=100, )
+
+    model.summary()
+
+    # plot_model(model, "my_first_model_with_shape_info.png", show_shapes=True)
+    print(model.get_layer('no_mask_4'))
+    exit()
 
     model.compile(optimizer='adam', loss=sampledsoftmaxloss)  # "binary_crossentropy")
 
