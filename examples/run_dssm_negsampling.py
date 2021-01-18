@@ -1,8 +1,16 @@
 import pandas as pd
+
+import sys
+import os
+
+CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
+print(CURRENT_DIR)
+sys.path.insert(0, CURRENT_DIR + '/..')
+
 from deepctr.feature_column import SparseFeat, VarLenSparseFeat
-from preprocess import gen_data_set, gen_model_input
+from examples.preprocess import gen_data_set, gen_model_input
 from sklearn.preprocessing import LabelEncoder
-from tensorflow.python.keras.models import Model
+from tensorflow.python.keras.models import Model, save_model, load_model
 
 from deepmatch.models import *
 
@@ -59,6 +67,8 @@ if __name__ == "__main__":
 
     history = model.fit(train_model_input, train_label,  # train_label,
                         batch_size=256, epochs=1, verbose=1, validation_split=0.0, )
+
+    save_model(model, './dssm_model')
 
     # 4. Generate user features for testing and full item features for retrieval
     test_user_model_input = test_model_input

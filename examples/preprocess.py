@@ -44,8 +44,17 @@ def gen_data_set_sdm(data, seq_short_len=5, seq_prefer_len=50):
         rating_list = hist['rating'].tolist()
 
         for i in range(1, len(pos_list)):
+            print("\n=============reviewerID:{}===================".format(reviewerID))
             hist = pos_list[:i]
             genres_hist = genres_list[:i]
+            print("total history:", pos_list)
+            print("row sample:", pos_list[:i])
+            print("history inverse:", hist[::-1])
+            print("train iid:", pos_list[i])
+            long_seq = hist[::-1][seq_short_len:]
+            print("short:", hist[::-1][:seq_short_len], "long:",
+                  [0] * seq_prefer_len if len(long_seq) < 1 else long_seq)
+            print("==================================================")
 
             if i <= seq_short_len and i != len(pos_list) - 1:
                 # short
